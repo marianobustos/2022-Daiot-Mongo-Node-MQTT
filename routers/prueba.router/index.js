@@ -3,8 +3,7 @@ const logs = require("./models/logs");
 const clientMqtt = require("../../storage/mqtt");
 const options = clientMqtt.MQTTOptions;
 var arrayTopicsListen = ["/#"];
-var arrayTopicsServer = ["/bustos/", "/Leopoldo/"];
-
+var arrayTopicsServer = ["/test_node/"];
 
 clientMqtt.on("connect", async function () {
     //BUSCO TODOS LOS NODOS NO REPETIDOS
