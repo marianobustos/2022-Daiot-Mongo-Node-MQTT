@@ -16,8 +16,6 @@ require('./storage/database/mongo');
 // Descomentar para usar MySQL
 // require("./storage/database/mysql");
 
-//me conecto a la db.
-
 // CORS:
 var corsOptions = {
   origin: ["https://daiot.com.ar"],
@@ -25,6 +23,7 @@ var corsOptions = {
   methods: ["GET", "POST", "OPTIONS"],
 };
 app.use(cors());
+//app.use(cors(corsOptions));
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));

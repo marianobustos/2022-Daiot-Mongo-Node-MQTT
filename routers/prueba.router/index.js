@@ -45,7 +45,27 @@ clientMqtt.on("connect", async function () {
     clientMqtt.on("message", async (topic, payload) => {
         console.log("[MQTT] Mensaje recibido: " + topic + ": " + payload.toString());
         var mensaje = payload.toString();
-        const jason = JSON.parse(mensaje);
+        let jason;
+        try {
+            jason = JSON.parse(mensaje);
+        } catch (error) {
+            console.log("FORMATO INCORRECTO, DEBE ENVIAR MENSAJES EN FORMATO JSON");
+            return; // Salir de la función en caso de error de formato
+        }
+        // Verificar la existencia de todos los campos
+        const camposEsperados = ['luz1', 'luz2', 'temperatura', 'humedad', 'dispositivoId', 'nombre', 'ubicacion'];
+        const camposFaltantes = camposEsperados.filter((campo) => !(campo in jason));
+        if (camposFaltantes.length > 0) {
+            console.log('CAMPOS FALTANTES: ', camposFaltantes.join(', '));
+            return;
+        }
+        // Validar el formato del JSON
+        if (typeof jason.luz1 !== 'number' || typeof jason.luz2 !== 'number' || typeof jason.temperatura !== 'number' || typeof jason.humedad !== 'number' || typeof jason.dispositivoId !== 'number' || typeof jason.nombre !== 'string' || typeof jason.ubicacion !== 'string') {
+            console.log('FORMATO INCORRECTO');
+            return;
+        }
+
+
         // busco coincidencia de topic y nombre de dispositivo en la DB
         const buscarDispositivo = await dispositivo.findOne({
             topic: topic,

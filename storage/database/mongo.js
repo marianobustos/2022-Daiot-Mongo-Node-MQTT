@@ -20,5 +20,6 @@ mongoose
   .catch((err) => console.log(err));
 
 db.on("error", (err) => {
+  console.log("ERROR EN BASE DE DATOS:");
   console.log(err);
 });

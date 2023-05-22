@@ -4,7 +4,7 @@ const config = require("./../config");
 const MQTT_ENV = config.services.MQTT;
 
 var options = {
-    clientId: 'mqttjs_' + Math.random().toString(16).substr(2, 8),
+    clientId: 'mqttjs_' + Math.random().toString(16).slice(2, 8),
     rejectUnauthorized: true,
     username: MQTT_ENV.USERNAME,
     password: MQTT_ENV.PASSWORD,
@@ -13,8 +13,12 @@ var options = {
     clean: true
 }
 
-const URI = `mqtt://${MQTT_ENV.HOST}`;
+//const URI = `mqtt://${MQTT_ENV.HOST}`; // Para utilizar sin TLS
+const URI = `mqtts://${MQTT_ENV.HOST}`; // Utiliza "mqtts" en lugar de "mqtt" para la conexión segura
 console.log("MQTT:" + URI);
+
+
+
 const client = mqtt.connect(URI, options);
 
 var arrayTopicsListen = [];
